@@ -1,50 +1,46 @@
-import { Component } from 'react'
-import CommentList from './CommentList'
-import AddComment from './AddComment'
-import Loading from './Loading'
-import Error from './Error'
+import { Component } from "react";
+import CommentList from "./CommentList";
+import AddComment from "./AddComment";
 
 class CommentArea extends Component {
   state = {
-    comments: [],
-    isLoading: true,
-    isError: false,
-  }
+    reviews: []
+  };
 
-  componentDidMount = async () => {
-    try {
-      let response = await fetch(
-        'https://striveschool-api.herokuapp.com/api/comments/' +
-          this.props.asin,
-        {
-          headers: {
-            Authorization: 'Bearer inserisci-qui-il-tuo-token',
-          },
-        }
-      )
-      console.log(response)
-      if (response.ok) {
-        let comments = await response.json()
-        this.setState({ comments: comments, isLoading: false, isError: false })
-      } else {
-        this.setState({ isLoading: false, isError: true })
+  fetchComments = async () => {
+    const resp = await fetch("https://striveschool-api.herokuapp.com/api/comments/" + this.props.asin, {
+      method: "GET",
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2E0ZGUxYmNhMDcwNDAwMTU4YmY5NzkiLCJpYXQiOjE3Mzg4NTgwMTEsImV4cCI6MTc0MDA2NzYxMX0.KY1i3aAaFytdpVHLectYt_unBT7ZsLQJtlf6z-iXCXg"
       }
-    } catch (error) {
-      console.log(error)
-      this.setState({ isLoading: false, isError: true })
+    });
+
+    if (resp.ok) {
+      const reviews = await resp.json();
+      console.log(reviews);
+
+      //   this.setState({reviews: reviews})
+      this.setState({ reviews });
     }
+  };
+
+  componentDidMount() {
+    console.log("componentDidMount()");
+    this.fetchComments();
   }
 
   render() {
+    console.log("RENDER COMMENT AREA", this.state.reviews);
     return (
-      <div className="text-center">
-        {this.state.isLoading && <Loading />}
-        {this.state.isError && <Error />}
+      <div className="commentArea">
+        <h6>CommentArea</h6>
+        <CommentList reviews={this.state.reviews} />
+
         <AddComment asin={this.props.asin} />
-        <CommentList commentsToShow={this.state.comments} />
       </div>
-    )
+    );
   }
 }
 
-export default CommentArea
+export default CommentArea;

@@ -1,9 +1,9 @@
-import { Alert } from 'react-bootstrap'
+import { Alert, Container } from "react-bootstrap";
 
 const Welcome = () => (
-  <Alert className="text-center">
-    <h1>Benvenuti in EpiBooks!</h1>
-  </Alert>
-)
-
-export default Welcome
+  <Container className="my-3">
+    <Alert variant="info">Benvenuti nel nostro Epic-Negozio</Alert>
+    <p>Il miglior negozio per libri, alla faccia di amazon!</p>
+  </Container>
+);
+export default Welcome;
