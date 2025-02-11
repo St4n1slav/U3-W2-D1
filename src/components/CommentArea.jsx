@@ -1,10 +1,12 @@
 import { Component } from "react";
 import CommentList from "./CommentList";
 import AddComment from "./AddComment";
+import { Alert, Spinner } from "react-bootstrap";
 
 class CommentArea extends Component {
   state = {
-    reviews: []
+    reviews: [],
+    fetched: false,
   };
 
   fetchComments = async () => {
@@ -12,8 +14,8 @@ class CommentArea extends Component {
       method: "GET",
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2E0ZGUxYmNhMDcwNDAwMTU4YmY5NzkiLCJpYXQiOjE3Mzg4NTgwMTEsImV4cCI6MTc0MDA2NzYxMX0.KY1i3aAaFytdpVHLectYt_unBT7ZsLQJtlf6z-iXCXg"
-      }
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2FiNjMwYjc1NzBiNjAwMTU2ZjAzZmIiLCJpYXQiOjE3MzkyODUyNTksImV4cCI6MTc0MDQ5NDg1OX0.2LdPrzxVo8Qa80ss9ELGuo1gJMRScGhwdOb57TxWHWs",
+      },
     });
 
     if (resp.ok) {
@@ -21,7 +23,7 @@ class CommentArea extends Component {
       console.log(reviews);
 
       //   this.setState({reviews: reviews})
-      this.setState({ reviews });
+      this.setState({ reviews, fetched: true });
     }
   };
 
@@ -35,9 +37,17 @@ class CommentArea extends Component {
     return (
       <div className="commentArea">
         <h6>CommentArea</h6>
-        <CommentList reviews={this.state.reviews} />
+        {this.state.fetched ? (
+          this.state.reviews.lenght > 0 ? (
+            <CommentList reviews={this.state.reviews} fetchComments={this.fetchComments} />
+          ) : (
+            <Alert variant="info">Non ci sono ancora recensioni</Alert>
+          )
+        ) : (
+          <Spinner animation="border" variant="info" />
+        )}
 
-        <AddComment asin={this.props.asin} />
+        <AddComment asin={this.props.asin} fetchComments={this.fetchComments} />
       </div>
     );
   }

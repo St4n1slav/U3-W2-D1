@@ -6,8 +6,8 @@ class AddComment extends Component {
     review: {
       comment: "",
       rate: "1",
-      elementId: this.props.asin
-    }
+      elementId: this.props.asin,
+    },
   };
 
   handleSubmit = async (e) => {
@@ -21,8 +21,8 @@ class AddComment extends Component {
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2E0ZGUxYmNhMDcwNDAwMTU4YmY5NzkiLCJpYXQiOjE3Mzg4NTgwMTEsImV4cCI6MTc0MDA2NzYxMX0.KY1i3aAaFytdpVHLectYt_unBT7ZsLQJtlf6z-iXCXg"
-      }
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2FiNjMwYjc1NzBiNjAwMTU2ZjAzZmIiLCJpYXQiOjE3MzkyODUyNTksImV4cCI6MTc0MDQ5NDg1OX0.2LdPrzxVo8Qa80ss9ELGuo1gJMRScGhwdOb57TxWHWs",
+      },
     });
 
     if (resp.ok) {
